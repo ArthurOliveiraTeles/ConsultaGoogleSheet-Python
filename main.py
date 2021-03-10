@@ -4,7 +4,10 @@ Last modified date: 10/03/2021
 
 For the purpose of this "Tunts" challenge, I will leave my spreadsheet complete with the values ​​assigned by my Python application.
 
-This application of mine used Google's APIs and Google Sheets, through Google Cloud."""
+This application of mine used Google's APIs and Google Sheets, through Google Cloud.
+
+To run the code, just run the terminal or some IDE."""
+
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
