@@ -41,46 +41,62 @@ except:
 
 # App code
 
-count = 4 # Accountant must start at 4 because in the document, the 4th line starts students
-while count <= (len(data)+1):
-    # Accessing all rows in the spreadsheet
-    row = sheet.row_values(count)
+quest = input('Deseja atualizar a tabela[A/a] ou limpar[L/l] os campos? ').upper().strip()[0]
+
+if quest == 'A':
     print("-----All student grades-----")
-    print(row[3], row[4], row[5])
 
-    # Converting the values ​​of columns 3, 4 and 5 (notes) to float.
-    n1 = float(row[3])
-    n2 = float(row[4])
-    n3 = float(row[5])
+    count = 4 # Accountant must start at 4 because in the document, the 4th line starts students
+    while count <= (len(data)+1):
+        # Accessing all rows in the spreadsheet
+        row = sheet.row_values(count)
+        print("-----All student grades-----")
+        print(row[3], row[4], row[5])
 
-    # Calculation of average and rounding
-    media = (n1 + n2 + n3)/3
-    math.floor(media)
+        # Converting the values ​​of columns 3, 4 and 5 (notes) to float.
+        n1 = float(row[3])
+        n2 = float(row[4])
+        n3 = float(row[5])
 
-    # Calculation of the percentage of absences
-    max_faltas = (25*60)/100 # pode apenas 15 faltas (translate to english later)
+        # Calculation of average and rounding
+        media = (n1 + n2 + n3)/3
+        math.floor(media)
 
-    if float(row[2]) > max_faltas:
-        # Updating the cell of each student and their columns "Situation" and "Final Grade"
-        # (row value, collumn, text)
-        sheet.update_cell(count, 7, "Reprovado por falta")
-        sheet.update_cell(count, 8, "0")
-    else:
-        if media > 70:
-            sheet.update_cell(count, 7, "Aprovado")
+        # Calculation of the percentage of absences
+        max_faltas = (25*60)/100 # pode apenas 15 faltas (translate to english later)
+
+        if float(row[2]) > max_faltas:
+            # Updating the cell of each student and their columns "Situation" and "Final Grade"
+            # (row value, collumn, text)
+            sheet.update_cell(count, 7, "Reprovado por falta")
             sheet.update_cell(count, 8, "0")
+        else:
+            if media > 70:
+                sheet.update_cell(count, 7, "Aprovado")
+                sheet.update_cell(count, 8, "0")
 
-        if media < 50:
-            sheet.update_cell(count, 7, "Reprovado por nota")
-            sheet.update_cell(count, 8, "0")
+            if media < 50:
+                sheet.update_cell(count, 7, "Reprovado por nota")
+                sheet.update_cell(count, 8, "0")
 
-        if 50 <= media < 70:
-            sheet.update_cell(count, 7, "Exame Final")
+            if 50 <= media < 70:
+                sheet.update_cell(count, 7, "Exame Final")
 
-            # Calculation of grade for final approval
-            mediaFinal = (50*2) - media
-            sheet.update_cell(count, 8, math.floor(mediaFinal))
+                # Calculation of grade for final approval
+                mediaFinal = (50*2) - media
+                sheet.update_cell(count, 8, math.floor(mediaFinal))
 
 
-    # It is important to add +1 to the counter at the end of the code, so that it skips the line.
-    count += 1
+        # It is important to add +1 to the counter at the end of the code, so that it skips the line.
+        count += 1
+
+elif quest == 'L':
+    count = 4
+    while count <= (len(data) + 1):
+        sheet.update_cell(count, 7, "")
+        sheet.update_cell(count, 8, "")
+
+        count += 1
+
+else:
+    print("Opção errada.")   
